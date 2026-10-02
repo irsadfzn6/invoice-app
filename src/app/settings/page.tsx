@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore } from "@/store/supabaseStore";
 import { Save, User, Key, Bell, Palette, Database, Download, Upload, Trash2, Building2 } from "lucide-react";
 
 export default function SettingsPage() {
-  const { clients, invoices, currentUserId, setUserId } = useInvoiceStore();
+  const { clients, invoices, user } = useSupabaseStore();
   const [activeTab, setActiveTab] = useState<"akun" | "data" | "tampilan" | "backup">("akun");
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState(user?.email?.split('@')[0] || "");
+  const [userEmail, setUserEmail] = useState(user?.email || "");
   const [companyName, setCompanyName] = useState("");
   const [companyAddress, setCompanyAddress] = useState("");
   const [companyPhone, setCompanyPhone] = useState("");
@@ -29,7 +29,7 @@ export default function SettingsPage() {
     const data = {
       clients,
       invoices,
-      userId: currentUserId,
+      userId: user?.id,
       settings: {
         userName,
         userEmail,

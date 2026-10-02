@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore, generateInvoiceNumber } from "@/store/supabaseStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -40,7 +40,7 @@ const calculateTotal = (subtotal: number, tax: number) => subtotal + tax;
 
 export default function NewInvoicePage() {
   const router = useRouter();
-  const { clients, addInvoice, generateInvoiceNumber } = useInvoiceStore();
+  const { clients, addInvoice } = useSupabaseStore();
   const [items, setItems] = useState<InvoiceFormData["items"]>([
     { description: "", quantity: 1, unit_price: 0 },
   ]);
@@ -85,7 +85,7 @@ export default function NewInvoicePage() {
   };
 
   const onSubmit = async (data: InvoiceFormData) => {
-    const invoice = addInvoice({
+    const invoice = await addInvoice({
       ...data,
       invoice_number: generateInvoiceNumber(),
       items: data.items.map((item) => ({
@@ -97,10 +97,12 @@ export default function NewInvoicePage() {
       tax,
       total,
     });
-    setSaved(true);
-    setTimeout(() => {
-      router.push(`/invoices/${invoice.id}`);
-    }, 1000);
+    if (invoice) {
+      setSaved(true);
+      setTimeout(() => {
+        router.push(`/invoices/${invoice.id}`);
+      }, 1000);
+    }
   };
 
   return (

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore } from "@/store/supabaseStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -39,7 +39,7 @@ const calculateTotal = (subtotal: number, tax: number) => subtotal + tax;
 export default function EditInvoicePage() {
   const router = useRouter();
   const params = useParams();
-  const { clients, invoices, updateInvoice } = useInvoiceStore();
+  const { clients, invoices, updateInvoice } = useSupabaseStore();
   const [items, setItems] = useState<InvoiceFormData["items"]>([]);
   const [saved, setSaved] = useState(false);
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore } from "@/store/supabaseStore";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { useParams } from "next/navigation";
@@ -54,7 +54,7 @@ const statusIcons: Record<string, React.ComponentType<{ className?: string }>> =
 export default function InvoiceDetailPage() {
   const router = useRouter();
   const params = useParams();
-  const { invoices, clients, updateInvoice, deleteInvoice } = useInvoiceStore();
+  const { invoices, clients, updateInvoice, deleteInvoice } = useSupabaseStore();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const invoice = invoices.find((inv) => inv.id === params.id);

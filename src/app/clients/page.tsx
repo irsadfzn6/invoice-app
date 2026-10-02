@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore } from "@/store/supabaseStore";
 import {
   Plus,
   Search,
@@ -17,7 +17,7 @@ import Link from "next/link";
 
 export default function ClientsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { clients, deleteClient, invoices } = useInvoiceStore();
+  const { clients, deleteClient, invoices } = useSupabaseStore();
 
   const filteredClients = clients
     .filter((client) =>

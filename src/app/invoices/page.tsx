@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore } from "@/store/supabaseStore";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import {
@@ -37,7 +37,7 @@ const statusLabels: Record<string, string> = {
 export default function InvoicesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const { invoices, clients, deleteInvoice } = useInvoiceStore();
+  const { invoices, clients, deleteInvoice } = useSupabaseStore();
 
   const filteredInvoices = invoices
     .filter((inv) => {

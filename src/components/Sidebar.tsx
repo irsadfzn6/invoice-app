@@ -10,7 +10,9 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
+import { useSupabaseStore } from "@/store/supabaseStore";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -22,6 +24,7 @@ const navigation = [
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+  const { user, signOut } = useSupabaseStore();
 
   return (
     <aside
@@ -73,9 +76,21 @@ export function Sidebar() {
         </nav>
 
         <div className="border-t border-gray-200 p-4">
-          <div className="text-xs text-gray-500 text-center">
-            {collapsed ? "v1.0" : "Invoice App v1.0.0"}
-          </div>
+          {user && (
+            <button
+              onClick={() => signOut()}
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            >
+              <LogOut className="h-5 w-5" />
+              {!collapsed && <span>Keluar ({user.email})</span>}
+              {collapsed && <span title={user.email}>Keluar</span>}
+            </button>
+          )}
+          {!user && (
+            <div className="text-xs text-gray-500 text-center">
+              {collapsed ? "v1.0" : "Invoice App v1.0.0"}
+            </div>
+          )}
         </div>
       </div>
     </aside>

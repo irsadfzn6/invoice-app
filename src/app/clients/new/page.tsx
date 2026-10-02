@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore } from "@/store/supabaseStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -21,7 +21,7 @@ type ClientFormData = z.infer<typeof clientSchema>;
 
 export default function NewClientPage() {
   const router = useRouter();
-  const { addClient } = useInvoiceStore();
+  const { addClient } = useSupabaseStore();
   const [saved, setSaved] = useState(false);
 
   const {

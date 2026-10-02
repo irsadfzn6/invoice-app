@@ -11,7 +11,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
-import { useInvoiceStore } from "@/store/invoiceStore";
+import { useSupabaseStore } from "@/store/supabaseStore";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 
@@ -93,7 +93,7 @@ function StatCard({
 }
 
 function RecentInvoices() {
-  const { invoices } = useInvoiceStore();
+  const { invoices } = useSupabaseStore();
   const recentInvoices = [...invoices]
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 5);
@@ -177,7 +177,7 @@ function RecentInvoices() {
 
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
-  const { invoices, clients } = useInvoiceStore();
+  const { invoices, clients } = useSupabaseStore();
 
   useEffect(() => {
     setMounted(true);
